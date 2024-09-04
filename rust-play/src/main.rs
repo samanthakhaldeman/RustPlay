@@ -26,6 +26,31 @@ fn empty_string(value: &mut String) {
 //     &"Sam".to_string()
 // }
 
+// Don't have to have a return statement. last statement without a semicolon is returned
+fn say_hello_world() -> String {
+    String::from("Hello, world!")
+}
+
+// This will yell at you because you don't need the return statement
+// fn say_hello_world2() -> String {
+//     return String::from("Hello, world!");
+// }
+
+// don't have to specify when it isn't returning something
+fn print_hello_world() {
+    let message = String::from("Hello, world!");
+    println!("{}", message);
+}
+
+fn say_hello_to(to_person: &String) -> String {
+    format!("Hello, {}!", to_person)
+}
+
+// function that takes a function pointer as a parameter
+fn process_name(num: i32, callback: fn(i32) -> i32) {
+    println!("{}", callback(num));
+}
+
 fn main() {
     let mut name = "Jane";
     println!("Hello {}", name);
@@ -110,4 +135,38 @@ fn main() {
     // println!("{}", mut_var3)
     // This doesn't work because you can't have a mutable reference and an immutable reference of 
     // the same variable
+
+    let greeting = say_hello_world();
+    println!("{}", greeting);
+
+    print_hello_world();
+
+    let person = String::from("Sam");
+    println!("{}", say_hello_to(&person));
+
+    // in line function
+    let say_hello_to_inline = |name: &str| format!("Hello, {}!", name);
+    println!("{}", say_hello_to_inline(&person.to_string()));
+
+    let first_name = "Sam".to_string();
+    let last_name = "Haldeman".to_string();
+    let full_name = |first_name: &str, last_name: &str| format!("{} {}", first_name, last_name);
+    println!("{}", full_name(&first_name, &last_name));
+
+    let multiply_by_2 = |x: i32| x*2;
+    println!("8 doubled: {}", multiply_by_2(8));
+
+    // multiple line function
+    let ask_for_age = || {
+        // ask user for age
+        // calculate how old in 10 years
+        10
+    };
+    println!("{}", ask_for_age());
+
+    // can have pointers to functions as well, easier than in C
+    let ptr = multiply_by_2;
+    let result = ptr(10);
+    println!("{}", result);
+    process_name(17, ptr);
 }
